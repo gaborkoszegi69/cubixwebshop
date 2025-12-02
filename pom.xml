@@ -6,12 +6,13 @@
     <groupId>hu.cubixwebshop</groupId>
     <artifactId>cubixwebshop</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-cloud-demo</name>
+    <name>spring-cloud-cubixwebshop</name>
     <packaging>pom</packaging>
 
     <modules>
         <module>user-service</module>
         <module>config</module>
         <module>discovery</module>
+        <module>gateway</module>
     </modules>
 </project>

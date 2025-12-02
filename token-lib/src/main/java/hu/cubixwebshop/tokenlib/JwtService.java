@@ -23,13 +23,13 @@ public class JwtService {
     private static final String AUTH = "auth";
     //private Algorithm alg = Algorithm.HMAC256("mysecret");
 
-    @Value("${hu.webuni.tokenlib.keypaths.private:#{null}}")
+    @Value("${hu.cubixwebshop.tokenlib.keypaths.private:#{null}}")
     private String pathToPemWithPrivateKey;
-    @Value("${hu.webuni.tokenlib.keypaths.public:#{null}}")
+    @Value("${hu.cubixwebshop.tokenlib.keypaths.public:#{null}}")
     private String pathToPemWithPublicKey;
     private Algorithm signerAlg;
     private Algorithm validatorAlg;
-    private String issuer = "webuni-user-service";
+    private String issuer = "cubixwebshop-user-service";
 
     @PostConstruct
     public void init() throws Exception {
