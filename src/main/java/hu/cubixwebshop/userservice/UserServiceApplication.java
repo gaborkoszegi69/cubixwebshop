@@ -4,7 +4,7 @@ package hu.cubixwebshop.userservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import hu.webuni.tokenlib.JwtAuthFilter;
+import hu.cubixwebshop.tokenlib.JwtAuthFilter;
 
 @SpringBootApplication(scanBasePackageClasses = {UserServiceApplication.class, JwtAuthFilter.class})
 public class UserServiceApplication {
