@@ -5,7 +5,7 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8085/eureka/
 hu:
-  webuni:
+  cubixwebshop:
     tokenlib:
       keypaths:
         public: /Users/gabor/Downloads/public.pem
