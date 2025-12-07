@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @RequiredArgsConstructor
 @EnableCaching
+
 @SpringBootApplication
 public class CatalogServiceApplication {
 
