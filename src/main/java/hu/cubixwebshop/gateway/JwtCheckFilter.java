@@ -20,6 +20,7 @@ import org.springframework.web.util.pattern.PathPatternParser;
 import hu.cubixwebshop.tokenlib.JwtAuthFilter;
 import hu.cubixwebshop.tokenlib.JwtService;
 import reactor.core.publisher.Mono;
+
 @Component
 public class JwtCheckFilter implements GlobalFilter {
 
