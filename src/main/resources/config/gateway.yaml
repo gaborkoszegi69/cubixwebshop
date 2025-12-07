@@ -14,8 +14,14 @@ spring:
     gateway:
       routes:
         - id: user-service
-          uri: lb://user-service
+          uri: lb://user-
           predicates:
             - Path=/users/**
           filters:
-            - RewritePath=/users(?<segment>/?.*), /api$\{segment}
+            - RewritePath=/user-service(?<segment>/?.*), /api$\{segment}
+        - id: flights
+          uri: lb://flights
+          predicates:
+            - Path=/flights/**
+          filters:
+            - RewritePath=/flights(?<segment>/?.*), /api$\{segment}
