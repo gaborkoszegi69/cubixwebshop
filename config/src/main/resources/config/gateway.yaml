@@ -1,0 +1,27 @@
+server:
+  port: 8080
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8085/eureka/
+hu:
+  cubixwebshop:
+    tokenlib:
+      keypaths:
+        public: /Users/gabor/Downloads/public.pem
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://user-
+          predicates:
+            - Path=/users/**
+          filters:
+            - RewritePath=/user-service(?<segment>/?.*), /api$\{segment}
+        - id: flights
+          uri: lb://flights
+          predicates:
+            - Path=/flights/**
+          filters:
+            - RewritePath=/flights(?<segment>/?.*), /api$\{segment}
