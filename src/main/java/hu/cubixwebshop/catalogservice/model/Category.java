@@ -1,11 +1,12 @@
 package hu.cubixwebshop.catalogservice.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -13,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class category {
+public class Category {
     @Id
     @GeneratedValue
     @ToString.Include
@@ -23,4 +24,6 @@ public class category {
     @ToString.Include
     private String categoryname;
 
+    @OneToMany(mappedBy = "category")
+    private  List<Product> products;
 }
