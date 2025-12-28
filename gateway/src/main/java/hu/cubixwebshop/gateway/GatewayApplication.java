@@ -1,10 +1,8 @@
 package hu.cubixwebshop.gateway;
 
-import hu.cubixwebshop.tokenlib.JwtService;
+import hu.cubixwebshop.gateway.tokenlib.JwtService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import hu.cubixwebshop.tokenlib.JwtAuthFilter;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication(

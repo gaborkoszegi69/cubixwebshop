@@ -1,29 +1,22 @@
 package hu.cubixwebshop.catalogservice.model;
 
-import java.time.LocalDate;
-import java.util.Set;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
-import jakarta.persistence.Cacheable;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.SuperBuilder;
+import lombok.*;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
-@Entity
-@Data
-@SuperBuilder
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
-@ToString(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Entity
 @Cacheable
-public class product {
+@Audited
+public class Product {
     @Id
     @GeneratedValue
     @ToString.Include
@@ -32,4 +25,9 @@ public class product {
 
     @ToString.Include
     private String productname;
+    @NotNull
+    private double price;
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    @ManyToOne(fetch=FetchType.LAZY)
+    private Category category;
 }

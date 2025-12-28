@@ -10,10 +10,10 @@
   servlet:
     multipart:
       max-file-size=10MB:
-  datasource:
-    url=jdbc:postgresql://192.168.0.61:5432/cubixkhzr
-    username:webuser
-    password:psoestrg
+ # datasource:
+ #   url=jdbc:postgresql://192.168.0.61:5432/cubixkhzr
+ #   username:webuser
+ #   password:psoestrg
   cache:
     infinispan:
       config=classpath:infinispan:
@@ -31,20 +31,20 @@
       idle-timeout: 30000
       connection-timeout: 30000
       max-lifetime: 1800000
-    properties:
-      hibernate
-        cache
-          region
-            factory_class:infinispan
-          infinispan
-            cfg:org/infinispan/hibernate/cache/commons/builder/infinispan-configs-local.xml
-            entity
-              expiration
-                max_idle=30000 
-            use_second_level_cache:true
-        jakarta.persistence
-          sharedCache.mode:ENABLE_SELECTIVE
-        hibernate
-          cache
-            use
-              query_cache:true
+      #      properties:
+        # hibernate
+        # cache
+        # region
+        #   factory_class:infinispan
+        # infinispan
+        #   cfg:org/infinispan/hibernate/cache/commons/builder/infinispan-configs-local.xml
+        #   entity
+        #     expiration
+        #       max_idle=30000
+        #   use_second_level_cache:true
+        # jakarta.persistence
+        #   sharedCache.mode:ENABLE_SELECTIVE
+        # hibernate
+        #   cache
+        #     use
+      #       query_cache:true

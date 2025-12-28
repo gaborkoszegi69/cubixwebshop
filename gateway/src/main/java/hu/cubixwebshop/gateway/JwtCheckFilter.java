@@ -17,8 +17,8 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.util.pattern.PathPattern;
 import org.springframework.web.util.pattern.PathPatternParser;
 
-import hu.cubixwebshop.tokenlib.JwtAuthFilter;
-import hu.cubixwebshop.tokenlib.JwtService;
+import hu.cubixwebshop.gateway.tokenlib.JwtAuthFilter;
+import hu.cubixwebshop.gateway.tokenlib.JwtService;
 import reactor.core.publisher.Mono;
 
 @Component

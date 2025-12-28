@@ -1,0 +1,1 @@
+alter table product add column category_id  int8;

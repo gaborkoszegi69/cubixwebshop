@@ -8,7 +8,8 @@ hu:
   cubixwebshop:
     tokenlib:
       keypaths:
-        public: /Users/gabor/Downloads/public.pem
+        public: /home/koszegig/webshop/public.pem
+        private: /home/koszegig/webshop/private.pem
 spring:
   cloud:
     gateway:
@@ -22,6 +23,6 @@ spring:
         - id: flights
           uri: lb://flights
           predicates:
-            - Path=/flights/**
+            - Path=/catalogs/**
           filters:
-            - RewritePath=/flights(?<segment>/?.*), /api$\{segment}
+            - RewritePath=/catalog-service(?<segment>/?.*), /api$\{segment}

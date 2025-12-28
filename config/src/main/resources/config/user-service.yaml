@@ -8,5 +8,5 @@ hu:
   cubixwebshop:
     tokenlib:
       keypaths:
-        private: /Users/gabor/Downloads/private.pem
-        public: /Users/gabor/Downloads/public.pem
+        private: /home/koszegig/webshop/private.pem
+        public: /home/koszegig/webshop/public.pem
