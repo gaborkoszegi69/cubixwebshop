@@ -6,6 +6,7 @@ import hu.cubixwebshop.catalogservice.mapper.CategoryMapper;
 import hu.cubixwebshop.catalogservice.model.Category;
 import hu.cubixwebshop.catalogservice.repository.CategoryRepository;
 import hu.cubixwebshop.catalogservice.service.CategoryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/categories")
 public class CategoryController {
 
