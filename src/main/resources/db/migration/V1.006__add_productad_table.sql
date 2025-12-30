@@ -1,0 +1,1 @@
+alter table product_aud add column category_id  int8;

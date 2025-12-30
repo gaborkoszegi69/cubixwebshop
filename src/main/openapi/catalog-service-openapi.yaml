@@ -9,8 +9,8 @@ paths:
   /api/categories:
     post:
       tags:
-        - Category-controller
-      operationId: createCourse
+        - categoryController
+      operationId: createCategory
       requestBody:
         content:
           application/json:

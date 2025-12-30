@@ -7,17 +7,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
+import lombok.*;
 import org.hibernate.envers.Audited;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.util.List;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Audited
 @Data
@@ -36,7 +33,7 @@ public class Category {
     private String categoryname;
 
     @OneToMany(mappedBy = "category")
-    private  List<Product> products;
+    private  Set<Product> products;
     //   public Long getId() {
     //     return  Long.valueOf(this.id);
     //}
