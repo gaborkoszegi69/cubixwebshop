@@ -18,6 +18,6 @@ public class CategoryDto {
     @JsonView(Views.BaseData.class)
     private String categoryname;
     @JsonView(Views.BaseData.class)
-    private List<ProductDto> products = new ArrayList<>();
+    private List<ProductDto> products;
 
 }

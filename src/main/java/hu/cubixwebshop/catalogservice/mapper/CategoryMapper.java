@@ -25,6 +25,6 @@ public interface CategoryMapper {
     @IterableMapping(qualifiedByName = "summaryname")
     List<CategoryDto> categorySummariesToDtos(Iterable<Category> findAll);
 
-    @Mapping(target = "categoryDto", ignore = true)
+    @Mapping(target = "category", ignore = true)
     ProductDto productToDto(Product product);
 }

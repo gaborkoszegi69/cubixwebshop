@@ -35,6 +35,7 @@ components:
         categoryname:
           type: string
         products:
+          type: array
           $ref: '#/components/schemas/ProductDto'
     ProductDto:
       type: object

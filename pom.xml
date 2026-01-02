@@ -231,17 +231,18 @@
                         </goals>
                         <configuration>
                             <inputSpec>
-                                ${project.basedir}/src/main/openapi/catalog-service-openapi.yml</inputSpec>
+                                ${project.basedir}/src/main/openapi/catalog-service-openapi.yml
+                            </inputSpec>
                             <generatorName>spring</generatorName>
                             <configOptions>
                                 <useTags>true</useTags>
                                 <dateLibrary>java8-datetime</dateLibrary>
-                                <configPackage>hu.cubixwebshop.catalogservice.api.config</configPackage>
+                                <configPackage>hu.cubixwebshop.catalog-service.api.config</configPackage>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useSpringBoot3>true</useSpringBoot3>
                             </configOptions>
-                            <apiPackage>hu.cubixwebshop.catalogservice.api</apiPackage>
-                            <modelPackage>hu.cubixwebshop.catalogservice.api.model</modelPackage>
+                            <apiPackage>hu.cubixwebshop.catalog-service.api</apiPackage>
+                            <modelPackage>hu.cubixwebshop.catalo-gservice.api.model</modelPackage>
                         </configuration>
                     </execution>
                 </executions>

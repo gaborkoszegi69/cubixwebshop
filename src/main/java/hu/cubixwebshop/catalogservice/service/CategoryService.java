@@ -23,11 +23,10 @@ import java.util.Optional;
 @Service
 @LogCall
 public class CategoryService {
-    @Autowired
-    private CategoryRepository categoryRepository;
 
-    @Autowired
-    private ProductService productService;
+    private final CategoryRepository categoryRepository;
+
+    private final ProductService productService;
 
     @Transactional
     public Category save(Category category) {
