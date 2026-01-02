@@ -1,12 +1,45 @@
 openapi: 3.1.0
 info:
-  title: Title
-  description: Title
+  title: Catalog-service
+  description: Catalog-service
   version: 1.0.0
 servers:
-  - url: 'https://localhost:8080'
+  - url: 'https://localhost:8087'
 paths:
   /api/categories:
+    get:
+      tags:
+        - categoryController
+      operationId: findAll
+      parameters:
+        - name: full
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - schema:
+            type: integer
+          in: query
+          name: page
+        - schema:
+            type: integer
+          in: query
+          name: size
+        - schema:
+            type: array
+            items:
+              type: string
+          in: query
+          name: sort
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CategoryDto'
     post:
       tags:
         - categoryController
@@ -24,6 +57,119 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CategoryDto'
+  '/api/categories/{id}':
+    get:
+      tags:
+        - categoryController
+      operationId: getById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryDto'
+    put:
+      tags:
+        - categoryController
+      operationId: modifyCategory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryDto'
+    delete:
+      tags:
+        - categoryController
+      operationId: deleteCategory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  '/api/categories/{id}/history':
+    get:
+      tags:
+        - categoryController
+      operationId: getHistoryById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HistoryDataCategoryDto'
+  /api/products:
+    get:
+      tags:
+        - ProductController
+      operationId: findProductAll
+      parameters:
+        - name: full
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - schema:
+            type: integer
+          in: query
+          name: page
+        - schema:
+            type: integer
+          in: query
+          name: size
+        - schema:
+            type: array
+            items:
+              type: string
+          in: query
+          name: sort
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+
 components:
   schemas:
     CategoryDto:
@@ -37,6 +183,23 @@ components:
         products:
           type: array
           $ref: '#/components/schemas/ProductDto'
+    HistoryDataCategoryDto:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CategoryDto'
+        revType:
+          type: string
+          enum:
+            - ADD
+            - MOD
+            - DEL
+        revision:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date-time
     ProductDto:
       type: object
       properties:
@@ -47,3 +210,20 @@ components:
           type: string
         price:
           type: integer
+    HistoryDataProductDto:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ProductDto'
+        revType:
+          type: string
+          enum:
+            - ADD
+            - MOD
+            - DEL
+        revision:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date-time

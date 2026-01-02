@@ -36,11 +36,11 @@ public class ProductController {
         return productMapper.productToDto(productService.save(productMapper.dtotoProduct(productDto)));
     }
     @PostMapping("/{id}/price/{price}")
-    public void startDelayPolling(@PathVariable long id, @PathVariable double price) {
+    public void modifyPriceProduce(@PathVariable long id, @PathVariable double price) {
         productService.modifyPriceProduce(id, price);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDto> modifyAirport(@PathVariable int id, @RequestBody ProductDto productDto) {
+    public ResponseEntity<ProductDto> modifyProduce(@PathVariable int id, @RequestBody ProductDto productDto) {
         Product product = productMapper.dtotoProduct(productDto);
         product.setId(id);
         try {
@@ -52,7 +52,7 @@ public class ProductController {
         }
     }
     @GetMapping
-    public List<ProductDto> findAll() {
+    public List<ProductDto> ProducefindAll() {
         return productMapper.productsToDtos(productService.findAll());
     }
     @GetMapping("/{id}")

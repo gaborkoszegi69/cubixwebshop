@@ -58,7 +58,7 @@ public class CategoryController {
         }
     }
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryDto> modifyAirport(@PathVariable int id, @RequestBody CategoryDto categoryDto) {
+    public ResponseEntity<CategoryDto> modifyCategory(@PathVariable int id, @RequestBody CategoryDto categoryDto) {
         Category category = categoryMapper.dtoToCategory(categoryDto);
         category.setId(id);
         try {
