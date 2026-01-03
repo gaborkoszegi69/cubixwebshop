@@ -1,20 +1,33 @@
 package hu.cubixwebshop.catalogservice.web;
 
 
-import hu.cubixwebshop.catalogservice.dto.CategoryDto;
+import hu.cubixwebshop.catalog_service.api.CategoryControllerApi;
+import hu.cubixwebshop.catalo_gservice.api.model.CategoryDto;
+import hu.cubixwebshop.catalo_gservice.api.model.HistoryDataCategoryDto;
+import hu.cubixwebshop.catalo_gservice.api.model.ProductDto;
+import hu.cubixwebshop.catalogservice.mapper.CategoryHistoryDataMapper;
 import hu.cubixwebshop.catalogservice.mapper.CategoryMapper;
 import hu.cubixwebshop.catalogservice.model.Category;
 import hu.cubixwebshop.catalogservice.model.HistoryData;
 import hu.cubixwebshop.catalogservice.repository.CategoryRepository;
 import hu.cubixwebshop.catalogservice.service.CategoryService;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.MethodParameter;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.WebDataBinderFactory;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -22,44 +35,34 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/categories")
-public class CategoryController {
+public class CategoryController implements CategoryControllerApi {
 
-    @Autowired
-    CategoryService categoryService;
+    private final NativeWebRequest nativeWebRequest;
+    private final CategoryService categoryService;
+    private final CategoryMapper categoryMapper;
+    private final CategoryRepository categoryRepository;
+    private final CategoryHistoryDataMapper categoryHistoryDataMapper;
+    private final PageableHandlerMethodArgumentResolver pageableResolver;
+    @Override
+    public Optional<NativeWebRequest> getRequest() {
+        return Optional.of(nativeWebRequest);
+    }
 
-    @Autowired
-    CategoryMapper categoryMapper;
-    @Autowired
-    CategoryRepository categoryRepository;
-    @PostMapping
-    @ResponseBody
-    public CategoryDto createCategory(@RequestBody CategoryDto categoryDto) {
+    @Override
+    public ResponseEntity<CategoryDto> createCategory(@Valid CategoryDto categoryDto) {
         Category category = categoryMapper.dtoToCategory(categoryDto);
-        return categoryMapper.categoryToDto(categoryService.save(categoryMapper.dtoToCategory(categoryDto)));
+        return ResponseEntity.ok(categoryMapper.categoryToDto(categoryService.save(categoryMapper.dtoToCategory(categoryDto))));
     }
 
-    @GetMapping
-    public List<CategoryDto> findAll(@RequestParam Optional<Boolean> full) {
-        return mapcategoriess(categoryService.findAll(full.orElse(false)),full);
+    @Override
+    public ResponseEntity<Void> deleteCategory(Long id) {
+        categoryService.delete(id);
+        return ResponseEntity.ok().build();
     }
-    @GetMapping("/{id}")
-    public CategoryDto getById(@PathVariable long id) {
-        Category category = categoryService.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        return categoryMapper.categoryToDto(category);
-    }
-    private List<CategoryDto> mapcategoriess(List<Category> categores, Optional<Boolean> full) {
-        if (full.orElse(false)) {
-            return categoryMapper.categoriesToDtos(categores);
-        } else {
-            return categoryMapper.categoriesToDtos(categores);
-        }
-    }
-    @PutMapping("/{id}")
-    public ResponseEntity<CategoryDto> modifyCategory(@PathVariable int id, @RequestBody CategoryDto categoryDto) {
-        Category category = categoryMapper.dtoToCategory(categoryDto);
+    @Override
+    public ResponseEntity<CategoryDto> modifyCategory(Long id, @Valid CategoryDto categoryDto) {
+        Category category= categoryMapper.dtoToCategory(categoryDto);
         category.setId(id);
         try {
             CategoryDto savedcategoryDto = categoryMapper.categoryToDto(categoryService.update(category));
@@ -69,22 +72,63 @@ public class CategoryController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
-    @GetMapping("/{id}/history")
-    public List<HistoryData<CategoryDto>> getHistoryById(@PathVariable long id) {
-        List<HistoryData<Category>> categorys = categoryService.getCategoryHistory(id);
+    @Override
+    public ResponseEntity<CategoryDto> getCategoryById(Long id) {
+        Category category=  categoryService.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        List<HistoryData<CategoryDto>> categoryDtosWithHistory = new ArrayList<>();
+        return ResponseEntity.ok(categoryMapper.categoryToDto(category));
+    }
 
-        categorys.forEach(hd ->{
-            categoryDtosWithHistory.add(new HistoryData<>(
-                    categoryMapper.categoryToDto(hd.getData()),
-                    hd.getRevType(),
-                    hd.getRevision(),
-                    hd.getDate()
-            ));
+    @Override
+    public ResponseEntity<List<HistoryDataCategoryDto>> getCategoryHistoryById(Long id  )  {
+        List<HistoryData<Category>> categories = categoryService.getCategoryHistory(id);
+
+        List<HistoryDataCategoryDto> categoryDtosWithHistory = new ArrayList<>();
+
+        categories.forEach(hd ->{
+
+            categoryDtosWithHistory.add(categoryHistoryDataMapper.categoryHistoryDataToDto(hd));
+
         });
 
-        return categoryDtosWithHistory;
+        return  ResponseEntity.ok(categoryDtosWithHistory);
     }
+    public void configPageable(@SortDefault("id") Pageable pageable) {}
+
+
+    @Override
+    public ResponseEntity<List<CategoryDto>> findCategoryAll(@Valid Boolean full, @Valid Integer page, @Valid Integer size,
+                                                   @Valid List<String> sort) {
+
+        boolean isFull = full == null ? false : full;
+
+        Pageable pageable = createPageable("configPageable");
+
+        List<Category> categories = isFull
+                ? categoryService.findAllWithRelationships(pageable)
+//				? airportRepository.findAllWithAddressAndDepartures() --> N*M sor jön vissza, ha N arrival és M departure van
+                : categoryRepository.findAll(pageable).getContent();
+
+        List<CategoryDto> resultList = isFull
+                ? categoryMapper.categoriesToDtos(categories)
+                : categoryMapper.categoriesToDtos(categories);
+        return ResponseEntity.ok(resultList);
+    }
+    private Pageable createPageable(String pageableConfigurerMethodName) {
+        Method method;
+        try {
+            method = this.getClass().getMethod(pageableConfigurerMethodName, Pageable.class);
+        } catch (NoSuchMethodException | SecurityException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        MethodParameter methodParameter = new MethodParameter(method, 0);
+        ModelAndViewContainer mavContainer = null;
+        WebDataBinderFactory binderFactory = null;
+        Pageable pageable = pageableResolver.resolveArgument(methodParameter, mavContainer, nativeWebRequest, binderFactory);
+        return pageable;
+    }
+
 }
 

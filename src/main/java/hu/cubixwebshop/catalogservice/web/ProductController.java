@@ -1,6 +1,6 @@
 package hu.cubixwebshop.catalogservice.web;
 
-import hu.cubixwebshop.catalogservice.dto.ProductDto;
+import hu.cubixwebshop.catalo_gservice.api.model.ProductDto;
 import hu.cubixwebshop.catalogservice.mapper.ProductMapper;
 import hu.cubixwebshop.catalogservice.model.HistoryData;
 import hu.cubixwebshop.catalogservice.model.Product;
@@ -16,7 +16,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor

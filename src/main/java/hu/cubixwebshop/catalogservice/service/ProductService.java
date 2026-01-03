@@ -1,6 +1,7 @@
 package hu.cubixwebshop.catalogservice.service;
 
 import hu.cubixwebshop.catalogservice.aspect.LogCall;
+import hu.cubixwebshop.catalogservice.dto.ProductDto;
 import hu.cubixwebshop.catalogservice.model.HistoryData;
 import hu.cubixwebshop.catalogservice.model.Product;
 import hu.cubixwebshop.catalogservice.repository.CategoryRepository;
@@ -12,7 +13,6 @@ import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.DefaultRevisionEntity;
 import org.hibernate.envers.RevisionType;
 import org.hibernate.envers.query.AuditEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

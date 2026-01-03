@@ -2,6 +2,7 @@ package hu.cubixwebshop.catalogservice.service;
 
 import hu.cubixwebshop.catalogservice.aspect.LogCall;
 import hu.cubixwebshop.catalogservice.model.Category;
+import hu.cubixwebshop.catalogservice.model.HistoryData;
 import hu.cubixwebshop.catalogservice.repository.CategoryRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -10,12 +11,11 @@ import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.DefaultRevisionEntity;
 import org.hibernate.envers.RevisionType;
 import org.hibernate.envers.query.AuditEntity;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import hu.cubixwebshop.catalogservice.model.HistoryData;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,5 +85,20 @@ public class CategoryService {
                 }).toList();
 
         return resultList;
+    }
+    @Transactional
+    @Cacheable("pagedCategorysWithRelationships")
+    public List<Category> findAllWithRelationships(Pageable pageable) {
+//		List<Airport> airports = airportRepository.findAllWithAddressAndDepartures(pageable); --> in memory lapozás, minden sor bejön a DB-ből
+//		airports = airportRepository.findAllWithArrivals(pageable);
+
+        List<Category> categorys = categoryRepository.findAllWithProductes(pageable);
+        List<Long> categoryIds = categorys.stream().map(Category::getId).toList();
+
+        categorys = categoryRepository.findByIdWithArrivals(categoryIds);
+
+
+        categorys = categoryRepository.findByIdWithDepartures(categoryIds, pageable.getSort());
+        return categorys;
     }
 }

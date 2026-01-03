@@ -21,7 +21,7 @@ public class Product {
     @GeneratedValue
     @ToString.Include
     @EqualsAndHashCode.Include
-    private int id;
+    private long id;
 
     @ToString.Include
     private String productname;

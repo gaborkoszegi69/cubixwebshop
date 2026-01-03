@@ -27,7 +27,7 @@ public class Category {
     @Id
     @GeneratedValue
     @EqualsAndHashCode.Include
-    private int id;
+    private long id;
 
     @ToString.Include
     private String categoryname;
