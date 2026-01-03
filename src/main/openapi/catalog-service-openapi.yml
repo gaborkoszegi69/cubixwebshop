@@ -10,7 +10,7 @@ paths:
     get:
       tags:
         - categoryController
-      operationId: findAll
+      operationId: findCategoryAll
       parameters:
         - name: full
           in: query
@@ -61,7 +61,7 @@ paths:
     get:
       tags:
         - categoryController
-      operationId: getById
+      operationId: getCategoryById
       parameters:
         - name: id
           in: path
@@ -118,7 +118,7 @@ paths:
     get:
       tags:
         - categoryController
-      operationId: getHistoryById
+      operationId: getCategoryHistoryById
       parameters:
         - name: id
           in: path
@@ -138,7 +138,7 @@ paths:
   /api/products:
     get:
       tags:
-        - ProductController
+        - productController
       operationId: findProductAll
       parameters:
         - name: full
@@ -169,6 +169,127 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProductDto'
+    post:
+      tags:
+        - productController
+      operationId: createProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+  '/api/products/{id}':
+    get:
+      tags:
+        - productController
+      operationId: getProductById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+    put:
+      tags:
+        - productController
+      operationId: modifyProduct
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+    delete:
+      tags:
+        - productController
+      operationId: deleteProduct
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  '/api/products/{id}/history':
+    get:
+      tags:
+        - productController
+      operationId: getProductsHistoryById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HistoryDataProductDto'
+  '/api/products/{id}/price/{price}':
+    post:
+      tags:
+        - productController
+      operationId: modifyPriceProduce
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: price
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+
 
 components:
   schemas:
@@ -210,6 +331,8 @@ components:
           type: string
         price:
           type: integer
+        category:
+          $ref: '#/components/schemas/CategoryDto'
     HistoryDataProductDto:
       type: object
       properties:
