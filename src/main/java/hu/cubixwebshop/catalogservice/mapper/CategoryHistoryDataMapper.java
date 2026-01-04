@@ -4,8 +4,8 @@ import hu.cubixwebshop.catalogservice.model.HistoryData;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import hu.cubixwebshop.catalo_gservice.api.model.CategoryDto;
-import hu.cubixwebshop.catalo_gservice.api.model.HistoryDataCategoryDto;
+import hu.cubixwebshop.catalogservice.openapi.model.CategoryDto;
+import hu.cubixwebshop.catalogservice.openapi.model.HistoryDataCategoryDto;
 
 @Mapper(componentModel = "spring")
 public interface CategoryHistoryDataMapper {

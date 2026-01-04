@@ -1,6 +1,6 @@
 package hu.cubixwebshop.catalogservice.web;
 
-import hu.cubixwebshop.catalo_gservice.api.model.ProductDto;
+import hu.cubixwebshop.catalogservice.openapi.model.ProductDto;
 import hu.cubixwebshop.catalogservice.mapper.ProductMapper;
 import hu.cubixwebshop.catalogservice.model.HistoryData;
 import hu.cubixwebshop.catalogservice.model.Product;

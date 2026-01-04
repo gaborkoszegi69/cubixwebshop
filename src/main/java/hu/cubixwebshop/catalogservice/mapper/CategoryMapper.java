@@ -1,7 +1,7 @@
 package hu.cubixwebshop.catalogservice.mapper;
 
-import hu.cubixwebshop.catalo_gservice.api.model.CategoryDto;
-import hu.cubixwebshop.catalo_gservice.api.model.ProductDto;
+import hu.cubixwebshop.catalogservice.openapi.model.CategoryDto;
+import hu.cubixwebshop.catalogservice.openapi.model.ProductDto;
 import hu.cubixwebshop.catalogservice.model.Category;
 import hu.cubixwebshop.catalogservice.model.Product;
 import org.mapstruct.InheritInverseConfiguration;

@@ -1,10 +1,10 @@
 package hu.cubixwebshop.catalogservice.web;
 
 
-import hu.cubixwebshop.catalog_service.api.CategoryControllerApi;
-import hu.cubixwebshop.catalo_gservice.api.model.CategoryDto;
-import hu.cubixwebshop.catalo_gservice.api.model.HistoryDataCategoryDto;
-import hu.cubixwebshop.catalo_gservice.api.model.ProductDto;
+import hu.cubixwebshop.catalogservice.openapi.api.CategoryControllerApi;
+import hu.cubixwebshop.catalogservice.openapi.model.CategoryDto;
+import hu.cubixwebshop.catalogservice.openapi.model.HistoryDataCategoryDto;
+import hu.cubixwebshop.catalogservice.openapi.model.ProductDto;
 import hu.cubixwebshop.catalogservice.mapper.CategoryHistoryDataMapper;
 import hu.cubixwebshop.catalogservice.mapper.CategoryMapper;
 import hu.cubixwebshop.catalogservice.model.Category;
