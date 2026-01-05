@@ -49,6 +49,7 @@ public class ProductController implements ProductControllerApi {
     private final ProductHistoryDataMapper productHistoryDataMapper;
     private final ProductRepository producRepository;
     private final NativeWebRequest nativeWebRequest;
+    private final MethodArgumentResolverHelper resolverHelper;
     //private final QuerydslPredicateArgumentResolver prediacateResolver;
     private final PageableHandlerMethodArgumentResolver pageableResolver;
     @Override
