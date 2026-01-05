@@ -1,5 +1,6 @@
 package hu.cubixwebshop.catalogservice.openapi.model;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -60,14 +61,18 @@ public class HistoryDataProductDto {
     }
   }
 
+
+
   @JsonProperty("revType")
-  private JsonNullable<RevTypeEnum> revType = JsonNullable.undefined();
+  private RevTypeEnum revType;
+
 
   @JsonProperty("revision")
-  private JsonNullable<Object> revision = JsonNullable.undefined();
+  private Integer revision;
 
   @JsonProperty("date")
-  private JsonNullable<Object> date = JsonNullable.undefined();
+  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
+  private LocalDateTime date;
 
   public HistoryDataProductDto data(ProductDto data) {
     this.data = data;
@@ -88,8 +93,8 @@ public class HistoryDataProductDto {
     this.data = data;
   }
 
-  public HistoryDataProductDto revType(RevTypeEnum revType) {
-    this.revType = JsonNullable.of(revType);
+  public HistoryDataProductDto revTyperevision(Integer revision) {
+    this.revision = revision;
     return this;
   }
 
@@ -99,51 +104,19 @@ public class HistoryDataProductDto {
   */
   
   @Schema(name = "revType", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public JsonNullable<RevTypeEnum> getRevType() {
+  public RevTypeEnum getRevType() {
     return revType;
   }
 
-  public void setRevType(JsonNullable<RevTypeEnum> revType) {
+  public void setRevType(RevTypeEnum revType) {
     this.revType = revType;
   }
 
-  public HistoryDataProductDto revision(Object revision) {
-    this.revision = JsonNullable.of(revision);
-    return this;
-  }
-
-  /**
-   * Get revision
-   * @return revision
-  */
-  
-  @Schema(name = "revision", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public JsonNullable<Object> getRevision() {
+  public Integer getRevision() {
     return revision;
   }
 
-  public void setRevision(JsonNullable<Object> revision) {
-    this.revision = revision;
-  }
 
-  public HistoryDataProductDto date(Object date) {
-    this.date = JsonNullable.of(date);
-    return this;
-  }
-
-  /**
-   * Get date
-   * @return date
-  */
-  
-  @Schema(name = "date", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public JsonNullable<Object> getDate() {
-    return date;
-  }
-
-  public void setDate(JsonNullable<Object> date) {
-    this.date = date;
-  }
 
   @Override
   public boolean equals(Object o) {
@@ -155,9 +128,9 @@ public class HistoryDataProductDto {
     }
     HistoryDataProductDto historyDataProductDto = (HistoryDataProductDto) o;
     return Objects.equals(this.data, historyDataProductDto.data) &&
-        equalsNullable(this.revType, historyDataProductDto.revType) &&
-        equalsNullable(this.revision, historyDataProductDto.revision) &&
-        equalsNullable(this.date, historyDataProductDto.date);
+            Objects.equals(this.revType, historyDataProductDto.revType) &&
+            Objects.equals(this.revision, historyDataProductDto.revision) &&
+            Objects.equals(this.date, historyDataProductDto.date);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -166,9 +139,8 @@ public class HistoryDataProductDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(data, hashCodeNullable(revType), hashCodeNullable(revision), hashCodeNullable(date));
+    return Objects.hash(data, revType, revision, date);
   }
-
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
     if (a == null) {
       return 1;

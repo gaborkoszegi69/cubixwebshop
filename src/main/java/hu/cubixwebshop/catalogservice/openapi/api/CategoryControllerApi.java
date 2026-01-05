@@ -226,7 +226,7 @@ public interface CategoryControllerApi {
 
             ,
 
-                                                       @ApiParam(value = "", required = true )   @Valid @RequestBody CategoryDto airportDto){
+                                                       @ApiParam(value = "", required = true )   @Valid @RequestBody CategoryDto categoryDto){
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

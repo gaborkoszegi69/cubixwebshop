@@ -6,7 +6,11 @@
 package hu.cubixwebshop.catalogservice.openapi.api;
 
 import hu.cubixwebshop.catalog_service.api.ApiUtil;
+import hu.cubixwebshop.catalogservice.openapi.model.CategoryDto;
+import hu.cubixwebshop.catalogservice.openapi.model.HistoryDataCategoryDto;
+import hu.cubixwebshop.catalogservice.openapi.model.HistoryDataProductDto;
 import hu.cubixwebshop.catalogservice.openapi.model.ProductDto;
+import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -23,6 +27,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 
 import jakarta.validation.Valid;
 
+import java.util.List;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
@@ -56,8 +61,7 @@ public interface ProductControllerApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<ProductDto> createProduct(
-        @Parameter(name = "ProductDto", description = "", required = true) @Valid @RequestBody ProductDto productDto
+    default ResponseEntity<ProductDto> createProduct(@Valid ProductDto productDto
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -121,11 +125,11 @@ public interface ProductControllerApi {
         value = "/api/products",
         produces = { "application/json" }
     )
-    default ResponseEntity<Object> findProductAll(
-        @Parameter(name = "full", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "full", required = false) Object full,
-        @Parameter(name = "page", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page", required = false) Object page,
-        @Parameter(name = "size", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "size", required = false) Object size,
-        @Parameter(name = "sort", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "sort", required = false) Object sort
+    default ResponseEntity<List<ProductDto>> findProductAll(
+        @Parameter(name = "full", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "full", required = false) Boolean full,
+        @Parameter(name = "page", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page", required = false) Integer page,
+        @Parameter(name = "size", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "size", required = false) Integer size,
+        @Parameter(name = "sort", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "sort", required = false) List<String>  sort
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -152,9 +156,9 @@ public interface ProductControllerApi {
         value = "/api/products/{id}",
         produces = { "application/json" }
     )
-    default ResponseEntity<ProductDto> getProductById(
-        @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Object id
-    ) {
+    default ResponseEntity<ProductDto> getProductById(@ApiParam(value = "", required = true) @PathVariable("id") Long id
+
+    ){
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -189,8 +193,8 @@ public interface ProductControllerApi {
         value = "/api/products/{id}/history",
         produces = { "application/json" }
     )
-    default ResponseEntity<Object> getProductsHistoryById(
-        @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Object id
+    default ResponseEntity<List<HistoryDataProductDto>> getProductsHistoryById(
+        @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Long id
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -218,9 +222,9 @@ public interface ProductControllerApi {
         value = "/api/products/{id}/price/{price}",
         produces = { "application/json" }
     )
-    default ResponseEntity<Object> modifyPriceProduce(
-        @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Object id,
-        @Parameter(name = "price", description = "", required = true, in = ParameterIn.PATH) @PathVariable("price") Object price
+    default ResponseEntity<Void> modifyPriceProduce(
+        @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Long id,
+        @Parameter(name = "price", description = "", required = true, in = ParameterIn.PATH) @PathVariable("price") double price
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -249,10 +253,9 @@ public interface ProductControllerApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<ProductDto> modifyProduct(
-        @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Object id,
-        @Parameter(name = "ProductDto", description = "", required = true) @Valid @RequestBody ProductDto productDto
-    ) {
+    default ResponseEntity<ProductDto> modifyProduct(@ApiParam(value = "", required = true) @PathVariable("id") Long id,
+                                                     @ApiParam(value = "", required = true )   @Valid @RequestBody ProductDto productDto)
+     {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

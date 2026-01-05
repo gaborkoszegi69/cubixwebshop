@@ -1,7 +1,8 @@
 package hu.cubixwebshop.catalogservice.service;
 
 import hu.cubixwebshop.catalogservice.aspect.LogCall;
-import hu.cubixwebshop.catalogservice.dto.ProductDto;
+import hu.cubixwebshop.catalogservice.openapi.model.ProductDto;
+import hu.cubixwebshop.catalogservice.model.Category;
 import hu.cubixwebshop.catalogservice.model.HistoryData;
 import hu.cubixwebshop.catalogservice.model.Product;
 import hu.cubixwebshop.catalogservice.repository.CategoryRepository;
@@ -13,6 +14,8 @@ import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.DefaultRevisionEntity;
 import org.hibernate.envers.RevisionType;
 import org.hibernate.envers.query.AuditEntity;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -94,5 +97,20 @@ public class ProductService {
     private void updateProductWithDelay(Product f, double price) {
         f.setPrice(delayService.getDelay(f.getId(),price));
         productRepository.save(f);
+    }
+    @Transactional
+    @Cacheable("pagedProductsWithRelationships")
+    public List<Product> findAllWithRelationships(Pageable pageable) {
+//		List<Airport> airports = airportRepository.findAllWithAddressAndDepartures(pageable); --> in memory lapozás, minden sor bejön a DB-ből
+//		airports = airportRepository.findAllWithArrivals(pageable);
+
+        List<Product> products = productRepository.findAllWithCategoris(pageable);
+        List<Long> productIds = products.stream().map(Product::getId).toList();
+
+        products = productRepository.findByIdWithArrivals(productIds);
+
+
+        products = productRepository.findByIdWithDepartures(productIds, pageable.getSort());
+        return products;
     }
 }
