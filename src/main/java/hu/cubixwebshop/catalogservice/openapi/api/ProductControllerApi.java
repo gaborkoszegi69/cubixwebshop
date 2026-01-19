@@ -193,8 +193,8 @@ public interface ProductControllerApi {
         value = "/api/products/{id}/history",
         produces = { "application/json" }
     )
-    default ResponseEntity<List<HistoryDataProductDto>> getProductsHistoryById(
-        @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Long id
+    default ResponseEntity<List<HistoryDataProductDto>> getProductsHistoryById(@ApiParam(value = "", required = true) @PathVariable("id") Long id
+
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -268,36 +268,6 @@ public interface ProductControllerApi {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
-    /**
-     * GET /api/products/search
-     *
-     * @param full  (optional)
-     * @param page  (optional)
-     * @param size  (optional)
-     * @param sort  (optional)
-     * @return OK (status code 200)
-     */
-    @Operation(
-            operationId = "search",
-            tags = { "productController" },
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "OK", content = {
-                            @Content(mediaType = "application/json", schema = @Schema(implementation = Object.class))
-                    })
-            }
-    )
-    @RequestMapping(
-            method = RequestMethod.GET,
-            value = "/api/products/search",
-            produces = { "application/json" }
-    )
-    default ResponseEntity<Object> search(
-            @Parameter(name = "full", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "full", required = false) Object full,
-            @Parameter(name = "page", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page", required = false) Object page,
-            @Parameter(name = "size", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "size", required = false) Object size,
-            @Parameter(name = "sort", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "sort", required = false) Object sort
-    ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
-    }
+
 }

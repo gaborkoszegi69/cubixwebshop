@@ -1,0 +1,1 @@
+alter table product add column artical_number  varchar(255);

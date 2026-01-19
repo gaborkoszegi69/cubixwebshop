@@ -4,6 +4,9 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Arrays;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.openapitools.jackson.nullable.JsonNullable;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,10 +18,11 @@ import jakarta.annotation.Generated;
  * ProductDto
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-01-03T13:33:12.168299443+01:00[Europe/Budapest]")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-01-03T13:33:12.168299443+01:00[Europe/Budapest]")
 public class ProductDto {
 
   @JsonProperty("id")
+  @NotNull
   private Long id ;
 
   @JsonProperty("productname")
@@ -28,7 +32,11 @@ public class ProductDto {
   private double price;
 
   @JsonProperty("category")
+  @NotNull
   private CategoryDto category;
+
+  @JsonProperty("artical_number")
+  private String articalNumber;
 
   public ProductDto id(Long id) {
     this.id = id;
@@ -106,6 +114,25 @@ public class ProductDto {
     this.category = category;
   }
 
+  public ProductDto articalNumber(String articalNumber) {
+    this.articalNumber = articalNumber;
+    return this;
+  }
+
+  /**
+   * Get articalNumber
+   * @return articalNumber
+   */
+
+
+  public String getArticalNumber() {
+    return articalNumber;
+  }
+
+  public void setArticalNumber(String articalNumber) {
+    this.articalNumber = articalNumber;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -118,7 +145,9 @@ public class ProductDto {
     return Objects.equals(this.id, productDto.id) &&
             Objects.equals(this.productname, productDto.productname) &&
             Objects.equals(this.price, productDto.price) &&
-        Objects.equals(this.category, productDto.category);
+        Objects.equals(this.category, productDto.category) &&
+            Objects.equals(this.articalNumber , productDto.articalNumber) ;
+
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -127,7 +156,7 @@ public class ProductDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id,productname,price, category);
+    return Objects.hash(id,productname,price, category, articalNumber);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -145,6 +174,7 @@ public class ProductDto {
     sb.append("    productname: ").append(toIndentedString(productname)).append("\n");
     sb.append("    price: ").append(toIndentedString(price)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
+    sb.append("    articalNumber: ").append(toIndentedString(articalNumber)).append("\n");
     sb.append("}");
     return sb.toString();
   }

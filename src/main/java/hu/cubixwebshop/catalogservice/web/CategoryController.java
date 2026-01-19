@@ -26,7 +26,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.server.ResponseStatusException;
-
+import com.querydsl.core.types.Predicate;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +43,7 @@ public class CategoryController implements CategoryControllerApi {
     private final CategoryRepository categoryRepository;
     private final CategoryHistoryDataMapper categoryHistoryDataMapper;
     private final PageableHandlerMethodArgumentResolver pageableResolver;
+    private final MethodArgumentResolverHelper resolverHelper;
     @Override
     public Optional<NativeWebRequest> getRequest() {
         return Optional.of(nativeWebRequest);
@@ -97,7 +98,7 @@ public class CategoryController implements CategoryControllerApi {
     public void configPageable(@SortDefault("id") Pageable pageable) {}
 
 
-    @Override
+ /*   @Override
     public ResponseEntity<List<CategoryDto>> findCategoryAll(@Valid Boolean full, @Valid Integer page, @Valid Integer size,
                                                    @Valid List<String> sort) {
 
@@ -114,7 +115,7 @@ public class CategoryController implements CategoryControllerApi {
                 ? categoryMapper.categoriesToDtos(categories)
                 : categoryMapper.categoriesToDtos(categories);
         return ResponseEntity.ok(resultList);
-    }
+    }*/
     private Pageable createPageable(String pageableConfigurerMethodName) {
         Method method;
         try {
@@ -129,6 +130,23 @@ public class CategoryController implements CategoryControllerApi {
         Pageable pageable = pageableResolver.resolveArgument(methodParameter, mavContainer, nativeWebRequest, binderFactory);
         return pageable;
     }
+   /*   @Override
+    public ResponseEntity<List<CategoryDto>> search(@Valid Boolean full, @Valid Integer page, @Valid Integer size,
+                                                  @Valid List<String> sort) {
+        boolean isFull = full == null ? false : full;
 
+        Pageable pageable = resolverHelper.createPageable(this.getClass(), "configPageable", nativeWebRequest);
+
+        Predicate predicate = resolverHelper.createPredicate(this.getClass(), "configurePredicate", nativeWebRequest);
+     //   if(isFull) {
+            Iterable<Category> categories = categoryService.searchCourses(
+                    predicate,
+                    pageable);
+            return ResponseEntity.ok(categoryMapper.categoriesToDtos(categories));
+             } else {
+           Iterable<Category> categories = categoryRepository.findAll(predicate, pageable);
+           return ResponseEntity.ok(categoryMapper.categorySummariesToDtos(categories));
+        }
+    }*/
 }
 

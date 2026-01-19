@@ -30,4 +30,6 @@ public class Product {
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     @ManyToOne(fetch=FetchType.LAZY)
     private Category category;
+
+    private String artical_number;
 }

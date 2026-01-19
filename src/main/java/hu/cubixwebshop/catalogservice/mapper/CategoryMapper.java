@@ -18,7 +18,7 @@ public interface CategoryMapper {
     CategoryDto categoryToDto(Category category);
     Category  dtoToCategory(CategoryDto categoryDto);
 
-    List<CategoryDto> categoriesToDtos(List<Category> category);
+    List<CategoryDto> categoriesToDtos(Iterable<Category> category);
     @Named("summaryname")
     @Mapping(ignore = true, target = "products")
     CategoryDto categoryDtoSummaryToDto(Category category);

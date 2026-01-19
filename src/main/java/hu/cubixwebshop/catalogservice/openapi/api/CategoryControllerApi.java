@@ -11,6 +11,7 @@ import hu.cubixwebshop.catalogservice.openapi.model.HistoryDataCategoryDto;
 import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -99,44 +100,6 @@ public interface CategoryControllerApi {
 
     }
 
-
-    /**
-     * GET /openapi/categories
-     *
-     * @param full  (optional)
-     * @param page  (optional)
-     * @param size  (optional)
-     * @param sort  (optional)
-     * @return OK (status code 200)
-     */
-    @Operation(
-        operationId = "findCategoryAll",
-        tags = { "categoryController" },
-        responses = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = Object.class))
-            })
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/api/categories",
-        produces = { "application/json" }
-    )
-    default ResponseEntity<List<CategoryDto>> findCategoryAll(@ApiParam(value = "") @Valid @RequestParam(value = "full", required = false) Boolean full
-
-            ,@ApiParam(value = "") @Valid @RequestParam(value = "page", required = false) Integer page
-
-            ,@ApiParam(value = "") @Valid @RequestParam(value = "size", required = false) Integer size
-
-            ,@ApiParam(value = "") @Valid @RequestParam(value = "sort", required = false) List<String> sort
-
-    ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
-
-
     /**
      * GET /openapi/categories/{id}
      *
@@ -194,7 +157,10 @@ public interface CategoryControllerApi {
         value = "/api/categories/{id}/history",
         produces = { "application/json" }
     )
-    default ResponseEntity<List<HistoryDataCategoryDto>> getCategoryHistoryById(Long id)  {
+    default ResponseEntity<List<HistoryDataCategoryDto>> getCategoryHistoryById(@ApiParam(value = "", required = true) @PathVariable("id") Long id
+
+    )
+    {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -240,6 +206,39 @@ public interface CategoryControllerApi {
 
     }
 
+
+    /**
+     * GET /api/categories/search
+     *
+     * @param full  (optional)
+     * @param page  (optional)
+     * @param size  (optional)
+     * @param sort  (optional)
+     * @return OK (status code 200)
+     */
+    @Operation(
+            operationId = "search",
+            tags = { "categoryController" },
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "OK", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = Object.class))
+                    })
+            }
+    )
+    @RequestMapping(
+            method = RequestMethod.GET,
+            value = "/api/categories/search",
+            produces = { "application/json" }
+    )
+    default ResponseEntity<List<CategoryDto>>  search(
+            @Parameter(name = "full", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "full", required = false) Boolean full,
+            @Parameter(name = "page", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page", required = false) Integer page,
+            @Parameter(name = "size", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "size", required = false) Integer size,
+            @Parameter(name = "sort", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "sort", required = false) List<String>  sort
+    ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
 
 }

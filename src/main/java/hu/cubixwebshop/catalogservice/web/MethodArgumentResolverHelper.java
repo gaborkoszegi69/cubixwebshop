@@ -14,11 +14,14 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import com.querydsl.core.types.Predicate;
 
 import lombok.RequiredArgsConstructor;
-@Component
+
 @RequiredArgsConstructor
+@Component
 public class MethodArgumentResolverHelper {
+
     private final PageableHandlerMethodArgumentResolver pageableResolver;
-    private final QuerydslPredicateArgumentResolver prediacateResolver;
+
+    private final QuerydslPredicateArgumentResolver predicateResolver;
 
     public Pageable createPageable(Class<?> clazz, String pageableConfigurerMethodName, NativeWebRequest nativeWebRequest) {
         Method method;
@@ -42,7 +45,7 @@ public class MethodArgumentResolverHelper {
             MethodParameter methodParameter = new MethodParameter(method, 0);
             ModelAndViewContainer mavContainer = null;
             WebDataBinderFactory binderFactory = null;
-            return (Predicate) prediacateResolver.resolveArgument(methodParameter, mavContainer, nativeWebRequest, binderFactory);
+            return (Predicate) predicateResolver.resolveArgument(methodParameter, mavContainer, nativeWebRequest, binderFactory);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);

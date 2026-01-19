@@ -23,6 +23,7 @@ import java.util.Set;
 @AllArgsConstructor
 @ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NamedEntityGraph(name="Category.products", attributeNodes = @NamedAttributeNode("products"))
 public class Category {
     @Id
     @GeneratedValue
