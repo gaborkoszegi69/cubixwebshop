@@ -3,6 +3,7 @@ package hu.cubixwebshop.catalogservice.service;
 import hu.cubixwebshop.catalogservice.aspect.LogCall;
 import hu.cubixwebshop.catalogservice.model.Category;
 import hu.cubixwebshop.catalogservice.model.HistoryData;
+import hu.cubixwebshop.catalogservice.model.QCategory;
 import hu.cubixwebshop.catalogservice.repository.CategoryRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -13,8 +14,11 @@ import org.hibernate.envers.RevisionType;
 import org.hibernate.envers.query.AuditEntity;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 
 import java.util.List;
 import java.util.Optional;
@@ -100,5 +104,19 @@ public class CategoryService {
 
         categorys = categoryRepository.findByIdWithDepartures(categoryIds, pageable.getSort());
         return categorys;
+    }
+    @Cacheable("categorySearchResults")
+    @Transactional
+    public Iterable<Category> searchCategories(Predicate predicate, Pageable pageable) {
+
+        //List<Course> courses = courseRepository.findAll(predicate, "Course.students", Sort.unsorted());
+        //courses = courseRepository.findAll(QCourse.course.in(courses), "Course.teachers", Sort.unsorted());
+        List<Category> categories = categoryRepository.findAll(predicate, pageable).getContent();
+        BooleanExpression inByCcategoryId = QCategory.category.in(categories);
+
+        categories = categoryRepository.findAll(inByCcategoryId, "Course.students", Sort.unsorted());
+       // courses = courseRepository.findAll(inByCourseId, "Course.teachers", pageable.getSort());
+
+        return categories;
     }
 }

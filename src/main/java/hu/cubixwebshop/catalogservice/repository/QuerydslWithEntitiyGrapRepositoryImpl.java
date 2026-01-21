@@ -16,14 +16,14 @@ import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 
-public class QuerydslWithEntitiyGrapRepositoryCategoryImpl
+public class QuerydslWithEntitiyGrapRepositoryImpl
         extends SimpleJpaRepository<Category, Long>
         implements QuerydslWithEntitiyGrapRepository<Category, Long> {
     private EntityManager entityManager;
     private EntityPath<Category> path;
     private PathBuilder<Category> builder;
     private Querydsl querydsl;
-    public QuerydslWithEntitiyGrapRepositoryCategoryImpl(EntityManager em) {
+    public QuerydslWithEntitiyGrapRepositoryImpl(EntityManager em) {
         super(Category.class, em);
         this.entityManager = em;
         this.path = SimpleEntityPathResolver.INSTANCE.createPath(Category.class);

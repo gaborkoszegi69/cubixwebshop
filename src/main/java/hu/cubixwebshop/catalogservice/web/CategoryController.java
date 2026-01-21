@@ -130,7 +130,7 @@ public class CategoryController implements CategoryControllerApi {
         Pageable pageable = pageableResolver.resolveArgument(methodParameter, mavContainer, nativeWebRequest, binderFactory);
         return pageable;
     }
-   /*   @Override
+      @Override
     public ResponseEntity<List<CategoryDto>> search(@Valid Boolean full, @Valid Integer page, @Valid Integer size,
                                                   @Valid List<String> sort) {
         boolean isFull = full == null ? false : full;
@@ -138,15 +138,16 @@ public class CategoryController implements CategoryControllerApi {
         Pageable pageable = resolverHelper.createPageable(this.getClass(), "configPageable", nativeWebRequest);
 
         Predicate predicate = resolverHelper.createPredicate(this.getClass(), "configurePredicate", nativeWebRequest);
-     //   if(isFull) {
-            Iterable<Category> categories = categoryService.searchCourses(
+        if(isFull) {
+            Iterable<Category> categories = categoryService.searchCategories(
                     predicate,
                     pageable);
             return ResponseEntity.ok(categoryMapper.categoriesToDtos(categories));
              } else {
            Iterable<Category> categories = categoryRepository.findAll(predicate, pageable);
            return ResponseEntity.ok(categoryMapper.categorySummariesToDtos(categories));
+
         }
-    }*/
+    }
 }
 
