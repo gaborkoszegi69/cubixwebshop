@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
@@ -33,8 +34,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-@RestController
 @RequiredArgsConstructor
+@RestController
 public class CategoryController implements CategoryControllerApi {
 
     private final NativeWebRequest nativeWebRequest;
@@ -97,25 +98,8 @@ public class CategoryController implements CategoryControllerApi {
     }
     public void configPageable(@SortDefault("id") Pageable pageable) {}
 
+    public void configurePredicate(@QuerydslPredicate(root = Category.class) Predicate predicate) {}
 
- /*   @Override
-    public ResponseEntity<List<CategoryDto>> findCategoryAll(@Valid Boolean full, @Valid Integer page, @Valid Integer size,
-                                                   @Valid List<String> sort) {
-
-        boolean isFull = full == null ? false : full;
-
-        Pageable pageable = createPageable("configPageable");
-
-        List<Category> categories = isFull
-                ? categoryService.findAllWithRelationships(pageable)
-//				? airportRepository.findAllWithAddressAndDepartures() --> N*M sor jön vissza, ha N arrival és M departure van
-                : categoryRepository.findAll(pageable).getContent();
-
-        List<CategoryDto> resultList = isFull
-                ? categoryMapper.categoriesToDtos(categories)
-                : categoryMapper.categoriesToDtos(categories);
-        return ResponseEntity.ok(resultList);
-    }*/
     private Pageable createPageable(String pageableConfigurerMethodName) {
         Method method;
         try {

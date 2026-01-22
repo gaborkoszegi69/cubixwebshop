@@ -1,7 +1,7 @@
 package hu.cubixwebshop.catalogservice.web;
 
-import java.lang.reflect.Method;
-
+import com.querydsl.core.types.Predicate;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
@@ -11,16 +11,13 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.querydsl.core.types.Predicate;
+import java.lang.reflect.Method;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class MethodArgumentResolverHelper {
 
     private final PageableHandlerMethodArgumentResolver pageableResolver;
-
     private final QuerydslPredicateArgumentResolver predicateResolver;
 
     public Pageable createPageable(Class<?> clazz, String pageableConfigurerMethodName, NativeWebRequest nativeWebRequest) {
